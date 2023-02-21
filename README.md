@@ -86,3 +86,14 @@ Merupakan tabel hasil observasi COVID-19 menurut negara dan waktu, serta sumber 
 - `cumulative_deaths` : bigint (kumulatif kasus meninggal)
 - `cumulative_recovered` : bigint (kumulatif kasus sembuh)
 - `source_id` : integer, foreign key (reference ke `source.source_id`)
+
+## Deskripsi Role & Kontributor
+
+1. Database Manager (Rizki Alifah Putri)
+2. Shiny Developer (Nur Khamidah (Back-end), Bayu Paramita (Front-end))
+3. Technical Writer (Kristuisno M. Kapiluka)
+
+## ERD
+
+![ERD Covid Database](https://github.com/semangat-45/DatabaseProject_Covid-19/blob/main/covid.png?raw=true)
+
