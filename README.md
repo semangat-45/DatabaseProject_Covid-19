@@ -89,9 +89,9 @@ Merupakan tabel hasil observasi COVID-19 menurut negara dan waktu, serta sumber 
 
 ## Deskripsi Role & Kontributor
 
-1. Database Manager (Rizki Alifah Putri)
-2. Shiny Developer (Nur Khamidah (Back-end), Bayu Paramita (Front-end))
-3. Technical Writer (Kristuisno M. Kapiluka)
+1. Database Manager (Rizki Alifah Putri - G1501221005)
+2. Shiny Developer (Nur Khamidah - G1501221023 (Back-end), Bayu Paramita - G1501221052 (Front-end))
+3. Technical Writer (Kristuisno M. Kapiluka - G1501221034)
 
 ## ERD
 
