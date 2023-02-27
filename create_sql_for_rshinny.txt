@@ -2,29 +2,29 @@
 
 -- Tab COVID-19 by Country
 SELECT b.date as Date
-	, a.continent as Continent  
-	, a.convert_name as Country
-	, b.cases as Covid_Case
-	, b.deaths as Cases_of_Covid_Death
-	, b.recovered as Covid_Recovery_Cases
-  --, c.source_name as Source
+      , a.continent as Continent  
+      , a.convert_name as Country
+      , b.cases as Covid_Case
+      , b.deaths as Cases_of_Covid_Death
+      , b.recovered as Covid_Recovery_Cases
+      --, c.source_name as Source
 FROM country a
 JOIN (SELECT ad.time_id
-	  		, it.date
-	  		, ad.country_id
-	 		, ad.cases
-	 		, ad.deaths
-	 		, ad.recovered
-	  	--, ad.source_id
-	 FROM data ad
-	  JOIN time it ON it.time_id=ad.time_id
-	 GROUP BY ad.time_id
-	  		, it.date
-	  		, ad.country_id
-	 		, ad.cases
-	 		, ad.deaths
-	 		, ad.recovered
-	  	--, ad.source_id
+	    , it.date
+	    , ad.country_id
+	    , ad.cases
+	    , ad.deaths
+	    , ad.recovered
+	    --, ad.source_id
+      FROM data ad
+      JOIN time it ON it.time_id=ad.time_id
+      GROUP BY ad.time_id
+      		, it.date
+		, ad.country_id
+		, ad.cases
+	 	, ad.deaths
+	 	, ad.recovered
+		, ad.source_id
 	 ) b ON b.country_id = a.country_id
 --JOIN source c ON c.source_id=b.source_id
 GROUP BY b.date
