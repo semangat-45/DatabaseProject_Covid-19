@@ -101,6 +101,11 @@ Merupakan tabel hasil observasi COVID-19 menurut negara dan waktu, serta sumber 
 2. Shiny Developer (Nur Khamidah - G1501221023 (Back-end), Bayu Paramita - G1501221052 (Front-end))
 3. Technical Writer (Kristuisno M. Kapiluka - G1501221034)
 
+## Skema
+<p align="center">
+  <img width="300" height="150" src="https://github.com/semangat-45/DatabaseProject_Covid-19/blob/main/SKEMA%20COVID.png">
+</p>
+
 ## ERD
 
 ![ERD Covid Database](https://github.com/semangat-45/DatabaseProject_Covid-19/blob/main/covid.png?raw=true)
