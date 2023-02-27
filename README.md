@@ -1,4 +1,12 @@
-# DatabaseProject_Covid-19
+# Project STA1562 Manajemen Data Statistika
+
+Project ini merupakan tugas akhir mata kuliah STA1562 mengenai basis data (database). Database yang digunakan merupakan database COVID-19 yang berisi kasus COVID-19 di 210 negara di dunia, yang sumbernya diproleh dari:
+
+- Johns Hopkins University
+- World Health Organisation (WHO)
+- European Centre for Disease Prevention and Control (ECDC)
+
+Dari database ini akan ditampilkan jumlahan kasus COVID-19 (kasus baru, sembuh, dan meninggal) dari suatu negara pada kurun waktu tertentu. Data dalam database ini dapat di akses dalam file .sql yang telah diunggah dalam repository ini.
 
 ## Deskripsi Tabel
 
