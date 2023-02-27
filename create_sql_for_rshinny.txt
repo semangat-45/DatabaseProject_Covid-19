@@ -1,6 +1,6 @@
 -- Database: covid--
 
--- Tab COVID-19 by Country--
+-- Tab COVID-19 by Country & Date--
 SELECT b.date as Date
       , a.continent as Continent  
       , a.convert_name as Country
