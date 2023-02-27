@@ -75,3 +75,14 @@ GROUP BY c.date
 	, d.convert_name
 	, a.value
 HAVING sum(b.cases) > 0
+
+--tab Health Index By Country and Mitigation--
+SELECT c.date as Date_Based_On_Health_Index
+      , d.convert_name as Country
+      , a.value as Health_Index
+      , b.measure_value as Countermeasures_Mitigation
+	
+FROM country_health_index a
+JOIN measurement b on b.country_id=a.country_id
+JOIN time c ON c.time_id=a.time_id 
+JOIN country d ON d.country_id=a.country_id
