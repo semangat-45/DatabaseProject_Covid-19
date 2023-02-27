@@ -1,6 +1,6 @@
--- Database: covid
+-- Database: covid--
 
--- Tab COVID-19 by Country
+-- Tab COVID-19 by Country--
 SELECT b.date as Date
       , a.continent as Continent  
       , a.convert_name as Country
@@ -35,3 +35,16 @@ GROUP BY b.date
 	, b.recovered
 --, c.source_name
 ORDER BY b.date asc
+
+
+--Tab COVID-19 by Cases--
+SELECT b.date as Date
+	, b.year as Year
+	, b.Month as Month
+	, a.cases as Covid_Case
+	, a.deaths as Cases_of_Covid_Death
+	, a.recovered as Covid_Recovery_Cases
+	
+
+FROM data a
+JOIN time b ON b.time_id=a.time_id
