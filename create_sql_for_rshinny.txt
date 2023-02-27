@@ -44,7 +44,34 @@ SELECT b.date as Date
 	, a.cases as Covid_Case
 	, a.deaths as Cases_of_Covid_Death
 	, a.recovered as Covid_Recovery_Cases
-	
-
 FROM data a
 JOIN time b ON b.time_id=a.time_id
+
+
+--Tab list of countries affected by covid and carrying out covid testing--
+
+SELECT c.date as Date
+	, d.convert_name as Country
+	, a.value as Number_of_Test
+	, sum(b.cases) as Covid_Case
+	, sum(b.deaths) as Cases_of_Covid_Death
+	, sum(b.recovered) as Covid_Recovery_Cases
+FROM country_testing_policy a
+JOIN (SELECT time_id
+	    , country_id
+	    , cases
+	    , deaths
+	    , recovered
+       FROM data
+       GROUP BY time_id
+       		, country_id
+	  	, cases
+	 	, deaths
+	  	, recovered
+	order by country_id asc) b ON b.time_id=a.time_id AND b.country_id=a.country_id
+JOIN time c ON c.time_id = a.time_id
+JOIN country d ON d.country_id = a.country_id
+GROUP BY c.date
+	, d.convert_name
+	, a.value
+HAVING sum(b.cases) > 0
