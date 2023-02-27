@@ -103,7 +103,7 @@ Merupakan tabel hasil observasi COVID-19 menurut negara dan waktu, serta sumber 
 
 ## Skema
 <p align="center">
-  <img width="300" height="150" src="https://github.com/semangat-45/DatabaseProject_Covid-19/blob/main/SKEMA%20COVID.png">
+  <img width="1000" height="500" src="https://github.com/semangat-45/DatabaseProject_Covid-19/blob/main/SKEMA%20COVID.png">
 </p>
 
 ## ERD
