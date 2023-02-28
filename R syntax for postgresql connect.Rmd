@@ -107,3 +107,60 @@ g1 <- dbGetQuery(con, q1)
 g1
 ```
 
+## Tab list of countries affected by covid and carrying out covid testing
+
+```{r}
+q2 <- "
+      SELECT c.date as Date
+      	, d.convert_name as Country
+      	, a.value as Number_of_Test
+      	, sum(b.cases) as Covid_Case
+      	, sum(b.deaths) as Cases_of_Covid_Death
+      	, sum(b.recovered) as Covid_Recovery_Cases
+      FROM country_testing_policy a
+      JOIN (SELECT time_id
+      	    , country_id
+      	    , cases
+      	    , deaths
+      	    , recovered
+      FROM data
+      GROUP BY time_id
+            , country_id
+      	  	, cases
+      	 	, deaths
+      	  	, recovered
+      	order by country_id asc) b ON b.time_id=a.time_id AND b.country_id=a.country_id
+      JOIN time c ON c.time_id = a.time_id
+      JOIN country d ON d.country_id = a.country_id
+      GROUP BY c.date
+      	, d.convert_name
+      	, a.value
+      HAVING sum(b.cases) > 0
+      "
+```
+
+```{r}
+g2 <- dbGetQuery(con, q2)
+g2
+```
+
+## Health Index By Country and Mitigation
+
+```{r}
+q3 <- "
+      SELECT c.date as Date_Based_On_Health_Index
+            , d.convert_name as Country
+            , a.value as Health_Index
+            , b.measure_value as Countermeasures_Mitigation
+      FROM country_health_index a
+      JOIN measurement b on b.country_id=a.country_id
+      JOIN time c ON c.time_id=a.time_id 
+      JOIN country d ON d.country_id=a.country_id
+      "
+```
+
+```{r}
+g3 <- dbGetQuery(con, q3)
+g3
+```
+
