@@ -3,9 +3,9 @@ library(shinydashboard)
 library(DT)
 library(DBI)
 library(dashboardthemes)
-source("conf.R")
+source("server.R")
 
-countries <- dbGetQuery(DBserver, "SELECT country_name FROM country")
+countries <- dbGetQuery(connectDB(), "SELECT country_name FROM country")
 
 dashboardPage(
   title = "COVID-19 Database",
