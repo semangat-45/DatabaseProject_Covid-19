@@ -13,12 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(RPostgres)
 library(DBI)
+source("conf.R")
 
-con <- dbConnect(RPostgres::Postgres(),dbname = 'covid', 
-                 host = 'localhost', 
-                 port = 5432, 
-                 user = 'postgres',
-                 password = '008800')
+con <- DBlocal
 ```
 
 ## Select Query

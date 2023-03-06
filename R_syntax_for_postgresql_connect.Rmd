@@ -61,7 +61,7 @@ country_death_ratio['ratio'] <- round(country_death_ratio['death_total']/country
 knitr::kable(head(country_death_ratio, 10))
 ```
 
-### Tab COVID-19 by Country
+### Tab COVID-19 by Country & Date
 
 ```{r}
 q1 <- "
