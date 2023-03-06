@@ -6,6 +6,7 @@ library(dashboardthemes)
 source("server.R")
 
 countries <- dbGetQuery(connectDB(), "SELECT country_name FROM country")
+years <- dbGetQuery(connectDB(), "SELECT year FROM time WHERE time_id IN (1, 6, 11, 16, 21, 26)")
 
 dashboardPage(
   title = "COVID-19 Database",
@@ -132,22 +133,23 @@ dashboardPage(
         h1(
           "Health Index Statistics Dashboard"
         ),
-        dateInput(
-          inputId = "in04_date",
-          label = "Masukkan Tanggal",
+        selectInput(
+          inputId = "in04_year",
+          label = "Masukkan Tahun",
+          choices = years,
           width = "60%"
         ),
         fluidRow(
           column(
             width = 6,
             dataTableOutput(
-              outputId = "in04_date2"
+              outputId = "out04_table1"
             )
           ),
           column(
             width = 6,
             dataTableOutput(
-              outputId = "out04_table1"
+              outputId = "out04_table2"
             )
           )
         ),
@@ -164,7 +166,7 @@ dashboardPage(
           width = "60%"
         ),
         dataTableOutput(
-          outputId = "out04_table2"
+          outputId = "out04_table3"
         )
       ),
       tabItem(

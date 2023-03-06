@@ -88,7 +88,7 @@ function(input, output, session){
   
   # Tab COVID-19 by Date & Country --------------------------------------
   output$out03_table <- renderDataTable({
-    in03_date <- input$in03_date
+    in03_date <- toString(input$in03_date)
     in03_country <- input$in03_country
     q3 <- sprintf("SELECT SUM(b.cases) as Covid_Case
                         , SUM(b.deaths) as Cases_of_Covid_Death
@@ -126,6 +126,42 @@ function(input, output, session){
   })
   
   # Tab COVID-19 by Mitigation --------------------------------------
+  output$out04_table1 <- renderDataTable({
+    in04_year <- toString(input$in04_year)
+    q4a <- sprintf("SELECT d.convert_name as Country
+                          , AVG(a.value) as Health_Index
+                          -- , b.measure_value as Countermeasures_Mitigation
+                    FROM country_health_index a
+                    JOIN measurement b on b.country_id=a.country_id
+                    JOIN time c ON c.time_id=a.time_id 
+                    JOIN country d ON d.country_id=a.country_id
+                    WHERE c.year = '%s'
+                    GROUP BY Country
+                    ORDER BY Health_Index DESC
+                    LIMIT 10", in04_year)
+    DB <- connectDB()
+    out04_table1 <- dbGetQuery(DB, q4a)
+    dbDisconnect(DB)
+    out04_table1
+  })
   
+  output$out04_table2 <- renderDataTable({
+    in04_year <- toString(input$in04_year)
+    q4b <- sprintf("SELECT d.convert_name as Country
+                          , AVG(a.value) as Health_Index
+                          -- , b.measure_value as Countermeasures_Mitigation
+                    FROM country_health_index a
+                    JOIN measurement b on b.country_id=a.country_id
+                    JOIN time c ON c.time_id=a.time_id 
+                    JOIN country d ON d.country_id=a.country_id
+                    WHERE c.year = '%s'
+                    GROUP BY Country
+                    ORDER BY Health_Index ASC
+                    LIMIT 10", in04_year)
+    DB <- connectDB()
+    out04_table2 <- dbGetQuery(DB, q4b)
+    dbDisconnect(DB)
+    out04_table2
+  })
   
 }
