@@ -126,7 +126,7 @@ function(input, output, session){
   })
   
   # Tab COVID-19 by Mitigation --------------------------------------
-  output$out04_table1 <- renderDataTable({
+  table1 <- reactive({
     in04_year <- toString(input$in04_year)
     q4a <- sprintf("SELECT d.convert_name as Country
                           , AVG(a.value) as Health_Index
@@ -145,7 +145,7 @@ function(input, output, session){
     out04_table1
   })
   
-  output$out04_table2 <- renderDataTable({
+  table2 <- reactive({
     in04_year <- toString(input$in04_year)
     q4b <- sprintf("SELECT d.convert_name as Country
                           , AVG(a.value) as Health_Index
@@ -164,4 +164,34 @@ function(input, output, session){
     out04_table2
   })
   
+  output$out04_table1 <- renderDataTable({
+    table1()
+  })
+  
+  output$out04_table2 <- renderDataTable({
+    table2()
+  })
+  
+  output$out04_ui <- renderUI({
+    selectInput(
+      inputId = "in04_country",
+      label = "Pilih Negara",
+      choices = c(table1()$country, table2()$country)
+    )
+  })
+  
+  output$out04_table3 <- renderDataTable({
+    in04_year <- input$in04_year
+    in04_country <- input[['in04_country']]
+    q4c <- sprintf("SELECT b.measure_value as Countermeasures_Mitigation
+                    FROM country_health_index a
+                    JOIN measurement b on b.country_id=a.country_id
+                    JOIN time c ON c.time_id=a.time_id 
+                    JOIN country d ON d.country_id=a.country_id
+                    WHERE c.year = '%s' AND d.convert_name = '%s'", in04_year, in04_country)
+    DB <- connectDB()
+    out04_table3 <- dbGetQuery(DB, q4c)
+    dbDisconnect(DB)
+    out04_table3
+  })
 }

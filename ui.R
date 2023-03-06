@@ -159,13 +159,10 @@ dashboardPage(
         plotOutput(
           outputId = "out04_plot2"
         ),
-        selectInput(
-          inputId = "in04_country",
-          label = "Masukkan Negara",
-          choices = countries,
-          width = "60%"
+        uiOutput(
+          outputId = "out04_ui"
         ),
-        dataTableOutput(
+        tableOutput(
           outputId = "out04_table3"
         )
       ),
