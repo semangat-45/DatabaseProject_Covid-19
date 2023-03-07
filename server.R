@@ -118,14 +118,13 @@ function(input, output, session){
     out03_table <- dbGetQuery(DB, q3)
     dbDisconnect(DB)
     if (nrow(out03_table) == 0){
-      df <- data.frame(message = "Hanya data dari 1 Januari 2020 hingga 30 Juni 2020 yang tersedia.")
-      df
+      data.frame(message = "Hanya data dari 1 Januari 2020 hingga 30 Juni 2020 yang tersedia.")
     } else {
       out03_table
     }
   })
   
-  # Tab COVID-19 by Mitigation --------------------------------------
+  # Tab COVID-19 Health Index and Mitigation --------------------------------------
   table1 <- reactive({
     in04_year <- toString(input$in04_year)
     q4a <- sprintf("SELECT d.convert_name as Country
@@ -172,7 +171,7 @@ function(input, output, session){
     table2()
   })
   
-  output$out04_ui <- renderUI({
+  ui04 <- reactive({
     selectInput(
       inputId = "in04_country",
       label = "Pilih Negara",
@@ -180,18 +179,26 @@ function(input, output, session){
     )
   })
   
+  output$out04_ui <- renderUI({
+    ui04()
+  })
+  
   output$out04_table3 <- renderDataTable({
     in04_year <- input$in04_year
-    in04_country <- input[['in04_country']]
+    in04_country <- req(input$in04_country)
     q4c <- sprintf("SELECT b.measure_value as Countermeasures_Mitigation
                     FROM country_health_index a
                     JOIN measurement b on b.country_id=a.country_id
                     JOIN time c ON c.time_id=a.time_id 
                     JOIN country d ON d.country_id=a.country_id
-                    WHERE c.year = '%s' AND d.convert_name = '%s'", in04_year, in04_country)
+                    WHERE c.year = %s AND d.convert_name = '%s'", in04_year, in04_country)
+    print(q4c)
     DB <- connectDB()
     out04_table3 <- dbGetQuery(DB, q4c)
     dbDisconnect(DB)
     out04_table3
   })
+  
+  # Tab Country Testing Policy --------------------------------------
+  
 }

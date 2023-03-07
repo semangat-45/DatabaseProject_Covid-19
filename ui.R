@@ -153,17 +153,17 @@ dashboardPage(
             )
           )
         ),
-        plotOutput(
-          outputId = "out04_plot1"
-        ),
-        plotOutput(
-          outputId = "out04_plot2"
-        ),
         uiOutput(
           outputId = "out04_ui"
         ),
         tableOutput(
           outputId = "out04_table3"
+        ),
+        plotOutput(
+          outputId = "out04_plot1"
+        ),
+        plotOutput(
+          outputId = "out04_plot2"
         )
       ),
       tabItem(
