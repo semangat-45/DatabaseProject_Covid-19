@@ -1,13 +1,3 @@
-connectDB <- function(){
-  DBlocal <- dbConnect(RPostgres::Postgres(),
-                       dbname = 'covid', 
-                       host = 'localhost',
-                       port = 5432, 
-                       user = 'postgres',
-                       password = '008800')
-  return(DBlocal)
-}
-
 function(input, output, session){
   # Tab COVID-19 by Date --------------------------------------
   output$out01_table <- renderDataTable({

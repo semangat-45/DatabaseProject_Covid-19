@@ -3,7 +3,7 @@ library(shinydashboard)
 library(DT)
 library(DBI)
 library(dashboardthemes)
-source("server.R")
+source("conf.R")
 
 countries <- dbGetQuery(connectDB(), "SELECT country_name FROM country")
 years <- dbGetQuery(connectDB(), "SELECT year FROM time WHERE time_id IN (1, 6, 11, 16, 21, 26)")
