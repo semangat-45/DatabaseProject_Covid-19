@@ -139,3 +139,31 @@ aus <- world[world$ISO3 == "AUS",]
 plot(aus, col=world$ISO3); text(aus, "Australia", cex=1)
 ```
 
+```{r}
+q4b <- sprintf("SELECT d.convert_name as Country
+                      ,  ROUND(AVG(CAST(a.value AS numeric)), 4) as Health_Index
+                      -- , b.measure_value as Countermeasures_Mitigation
+                          FROM country_health_index a
+                          JOIN measurement b on b.country_id=a.country_id
+                          JOIN time c ON c.time_id=a.time_id 
+                          JOIN country d ON d.country_id=a.country_id
+                          WHERE c.year = '%s'
+                          GROUP BY Country
+                          ORDER BY Health_Index ASC
+                          LIMIT 10", 2015)
+g4 <- dbGetQuery(con, q4b)
+g4
+```
+
+```{r}
+fig3a <- plot_ly(g4, x = ~country, y = ~health_index, type = 'bar',
+             textposition = 'auto',
+             marker = list(color = 'rgb(158,202,225)',
+                           line = list(color = 'rgb(8,48,107)', width = 1.5)))
+fig3a <- fig3a %>% layout(title = "Top 10 Health Index Countries",
+         xaxis = list(title = ""),
+         yaxis = list(title = ""))
+
+fig3a
+```
+

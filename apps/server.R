@@ -187,10 +187,10 @@ function(input, output, session){
   })
 
   # Tab COVID-19 Health Index and Mitigation --------------------------------------
-  table1 <- reactive({
+  tab4a <- reactive({
     in04_year <- toString(input$in04_year)
     q4a <- sprintf("SELECT d.convert_name as Country
-                          , AVG(a.value) as Health_Index
+                          , ROUND(AVG(CAST(a.value AS numeric)), 4) as Health_Index
                           -- , b.measure_value as Countermeasures_Mitigation
                     FROM country_health_index a
                     JOIN measurement b on b.country_id=a.country_id
@@ -206,7 +206,7 @@ function(input, output, session){
     out04_table1
   })
   
-  table2 <- reactive({
+  tab4b <- reactive({
     in04_year <- toString(input$in04_year)
     q4b <- sprintf("SELECT d.convert_name as Country
                           ,  ROUND(AVG(CAST(a.value AS numeric)), 4) as Health_Index
@@ -226,18 +226,18 @@ function(input, output, session){
   })
   
   output$out04_table1 <- renderDataTable({
-    table1()
+    tab4a()
   })
   
   output$out04_table2 <- renderDataTable({
-    table2()
+    tab4b()
   })
   
   ui04 <- reactive({
     selectInput(
       inputId = "in04_country",
       label = "Pilih Negara",
-      choices = c(table1()$country, table2()$country)
+      choices = c(tab4a()$country, tab4b()$country)
     )
   })
   
@@ -259,7 +259,28 @@ function(input, output, session){
     dbDisconnect(DB)
     out04_table3
   })
-
+  
+  output$out04_plot1 <- renderPlotly({
+    fig4a <- plot_ly(tab4a(), x = ~country, y = ~health_index, type = 'bar', textposition = 'auto',
+                     marker = list(color = 'rgb(158,202,225)',
+                                   line = list(color = 'rgb(8,48,107)', width = 1.5)))
+    fig4a <- fig4a %>% layout(title = "Top 10 Health Index Countries",
+                              xaxis = list(title = ""),
+                              yaxis = list(title = ""))
+    
+    fig4a
+  })
+  
+  output$out04_plot2 <- renderPlotly({
+    fig4b <- plot_ly(tab4b(), x = ~country, y = ~health_index, type = 'bar', textposition = 'auto',
+                     marker = list(color = 'rgb(158,202,225)',
+                                   line = list(color = 'rgb(8,48,107)', width = 1.5)))
+    fig4b <- fig4b %>% layout(title = "Top 10 Health Index Countries",
+                              xaxis = list(title = ""),
+                              yaxis = list(title = ""))
+    
+    fig4b
+  })
   
   # Tab Country Testing Policy --------------------------------------
   
