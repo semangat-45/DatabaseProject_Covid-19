@@ -64,47 +64,52 @@ knitr::kable(head(country_death_ratio, 10))
 ### Tab COVID-19 by Country & Date
 
 ```{r}
-q1 <- "
-      SELECT b.date as Date
-            , a.continent as Continent  
-            , a.convert_name as Country
-            , b.cases as Covid_Case
-            , b.deaths as Cases_of_Covid_Death
-            , b.recovered as Covid_Recovery_Cases
-            --, c.source_name as Source
-      FROM country a
-      JOIN (SELECT ad.time_id
-      	    , it.date
-      	    , ad.country_id
-      	    , ad.cases
-      	    , ad.deaths
-      	    , ad.recovered
-      	    --, ad.source_id
-            FROM data ad
-            JOIN time it ON it.time_id=ad.time_id
-            GROUP BY ad.time_id
-            		, it.date
-      		, ad.country_id
-      		, ad.cases
-      	 	, ad.deaths
-      	 	, ad.recovered
-      		, ad.source_id
-      	 ) b ON b.country_id = a.country_id
-      --JOIN source c ON c.source_id=b.source_id
-      GROUP BY b.date
-      	, a.continent
-      	, a.convert_name
-      	, b.cases
-      	, b.deaths
-      	, b.recovered
-      --, c.source_name
-      ORDER BY b.date asc
-      "
+dbListFields(con, "data")
+```
+
+
+```{r}
+q1 <- sprintf("SELECT a.continent as Continent  
+                        , a.convert_name as Country
+                        , a.country_code as Code
+                        , SUM(b.cases) as Covid_Case
+                        , SUM(b.deaths) as Cases_of_Covid_Death
+                        , SUM(b.recovered) as Covid_Recovery_Cases
+                        , SUM(b.cumulate_cases) as Cumulative_Cases
+                        , SUM(b.cumulate_deaths) as Cumulative_Deaths
+                        , SUM(b.cumulate_recovered) as Cumulative_Recovered
+                        --, c.source_name as Source
+                  FROM country a
+                  JOIN (SELECT ad.time_id
+                  	    , it.date
+                  	    , ad.country_id
+                  	    , ad.cases
+                  	    , ad.deaths
+                  	    , ad.recovered
+                  	    , ad.cumulate_cases
+                  	    , ad.cumulate_deaths
+                  	    , ad.cumulate_recovered
+                  	    --, ad.source_id
+                        FROM data ad
+                        JOIN time it ON it.time_id=ad.time_id
+                        GROUP BY ad.time_id
+                        		, it.date
+                        		, ad.country_id
+                        		, ad.cases
+                        	 	, ad.deaths
+                        	 	, ad.recovered
+                        	 	, ad.cumulate_cases
+                        	 	, ad.cumulate_deaths
+                        	 	, ad.cumulate_recovered
+                        		, ad.source_id
+                  	 ) b ON b.country_id = a.country_id
+                  WHERE b.date = '%s'
+                  GROUP BY Country, Continent, Code", "2020-03-02")
 ```
 
 ```{r}
 g1 <- dbGetQuery(con, q1)
-knitr::kable(head(g1, 10))
+head(g1, 10)
 ```
 
 ## Tab list of countries affected by covid and carrying out covid testing
@@ -162,5 +167,62 @@ q3 <- "
 ```{r}
 g3 <- dbGetQuery(con, q3)
 knitr::kable(head(g3, 10))
+```
+
+```{r}
+q4b <- sprintf("SELECT d.convert_name as Country
+                      , ROUND(AVG(CAST(a.value AS numeric)), 4) as Health_Index
+                      -- , b.measure_value as Countermeasures_Mitigation
+                FROM country_health_index a
+                JOIN measurement b on b.country_id=a.country_id
+                JOIN time c ON c.time_id=a.time_id 
+                JOIN country d ON d.country_id=a.country_id
+                WHERE c.year = '%s'
+                GROUP BY Country
+                ORDER BY Health_Index ASC
+                LIMIT 10", "2015")
+dbGetQuery(con, q4b)
+```
+
+```{r}
+q5 <- sprintf("SELECT b.date
+              		, ct.convert_name as country
+              		, a.value as Number_Of_Testing
+              		, SUM(c.cases) as New_Case
+              		, SUM(c.deaths) as New_Death
+              		, SUM(c.recovered) as New_Recover
+              		, (SUM(c.cases)+c.cumulate_cases) as Total_Cases
+              		, (SUM(c.deaths)+c.cumulate_deaths) as Total_Deaths
+              		, (SUM(c.recovered)+c.cumulate_recovered) as Total_Recovered
+              		, e.value as Health_Index
+              		, d.measure_value as Mitigation
+              		, d.Category
+              FROM country_testing_policy a
+              JOIN country ct ON ct.country_id=a.country_id
+              JOIN TIME b ON b.time_id=a.time_id 
+              JOIN data c ON c.time_id=a.time_id and c.country_id=a.country_id
+              JOIN (SELECT aa.country_id
+              	  		   , max(value) as value
+              	  FROM country_health_index aa
+              	  JOIN(SELECT country_id
+              		   		, max(time_id) as time_id
+              	  	    FROM country_health_index
+              		      GROUP BY country_id) bb ON bb.time_id=aa.time_id and bb.country_id=aa.country_id
+              	        GROUP BY aa.country_id
+              	  ) e ON e.country_id=a.country_id
+                  JOIN measurement d ON d.country_id=a.country_id and d.time_id=a.time_id
+                  WHERE ct.convert_name = '%s'
+                  GROUP BY b.date
+                  		, a.value
+                  		, c.cumulate_cases
+                  		, c.cumulate_deaths
+                  		, c.cumulate_recovered
+                  		, e.value
+                  		, ct.convert_name
+                  		, d.measure_value
+                  		, d.category
+                  HAVING SUM(c.cases) > 0
+                  Order by b.date asc", "Indonesia")
+dbGetQuery(con, q5)
 ```
 

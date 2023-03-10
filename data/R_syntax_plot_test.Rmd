@@ -1,0 +1,89 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-03-10"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("sp", "gstat")
+library(raster)
+library(rgdal)
+library(spdep)
+```
+
+```{r}
+jabar<-readOGR(dsn="/Users/User/Library/CloudStorage/OneDrive-apps.ipb.ac.id/Kuliah/Semester 2/STA1500 Metode Penelitian Kuantitatif/1. Spasial/petajabar27", layer="Peta Jabar 27")
+```
+
+```{r}
+class(jabar)
+```
+
+```{r}
+library(prevR)
+plot(TMWorldBorders)
+class(TMWorldBorders)
+```
+
+```{r}
+world <- TMWorldBorders
+world@data
+```
+```{r}
+q1 <- sprintf("SELECT a.continent as Continent  
+                        , a.convert_name as Country
+                        , a.country_code as Code
+                        , SUM(b.cases) as Covid_Case
+                        , SUM(b.deaths) as Cases_of_Covid_Death
+                        , SUM(b.recovered) as Covid_Recovery_Cases
+                        , SUM(b.cumulate_cases) as Cumulative_Cases
+                        , SUM(b.cumulate_deaths) as Cumulative_Deaths
+                        , SUM(b.cumulate_recovered) as Cumulative_Recovered
+                        --, c.source_name as Source
+                  FROM country a
+                  JOIN (SELECT ad.time_id
+                  	    , it.date
+                  	    , ad.country_id
+                  	    , ad.cases
+                  	    , ad.deaths
+                  	    , ad.recovered
+                  	    , ad.cumulate_cases
+                  	    , ad.cumulate_deaths
+                  	    , ad.cumulate_recovered
+                  	    --, ad.source_id
+                        FROM data ad
+                        JOIN time it ON it.time_id=ad.time_id
+                        GROUP BY ad.time_id
+                        		, it.date
+                        		, ad.country_id
+                        		, ad.cases
+                        	 	, ad.deaths
+                        	 	, ad.recovered
+                        	 	, ad.cumulate_cases
+                        	 	, ad.cumulate_deaths
+                        	 	, ad.cumulate_recovered
+                        		, ad.source_id
+                  	 ) b ON b.country_id = a.country_id
+                  WHERE b.date = '%s'
+                  GROUP BY Country, Continent, Code", "2020-03-02")
+```
+
+```{r}
+g1 <- dbGetQuery(con, q1)
+head(g1, 10)
+```
+
+```{r}
+world <- merge(world, g1, by.x = "ISO3", by.y="code")
+world@data
+```
+
+```{r}
+spplot(world,"covid_case",main="COVID-19 Case", na.rm = T)
+spplot(world,"cumulative_cases",main="COVID-19 Cumulative Case")
+```
+

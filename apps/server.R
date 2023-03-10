@@ -1,12 +1,16 @@
 function(input, output, session){
   # Tab COVID-19 by Date --------------------------------------
-  output$out01_table <- renderDataTable({
+  tab1 <- reactive({
     in01_date <- toString(input$in01_date)
     q1 <- sprintf("SELECT a.continent as Continent  
                         , a.convert_name as Country
+                        , a.country_code as Code
                         , SUM(b.cases) as Covid_Case
                         , SUM(b.deaths) as Cases_of_Covid_Death
                         , SUM(b.recovered) as Covid_Recovery_Cases
+                        , SUM(b.cumulate_cases) as Cumulative_Cases
+                        , SUM(b.cumulate_deaths) as Cumulative_Deaths
+                        , SUM(b.cumulate_recovered) as Cumulative_Recovered
                         --, c.source_name as Source
                   FROM country a
                   JOIN (SELECT ad.time_id
@@ -15,31 +19,49 @@ function(input, output, session){
                   	    , ad.cases
                   	    , ad.deaths
                   	    , ad.recovered
+                  	    , ad.cumulate_cases
+                  	    , ad.cumulate_deaths
+                  	    , ad.cumulate_recovered
                   	    --, ad.source_id
                         FROM data ad
                         JOIN time it ON it.time_id=ad.time_id
                         GROUP BY ad.time_id
                         		, it.date
-                  		, ad.country_id
-                  		, ad.cases
-                  	 	, ad.deaths
-                  	 	, ad.recovered
-                  		, ad.source_id
+                        		, ad.country_id
+                        		, ad.cases
+                        	 	, ad.deaths
+                        	 	, ad.recovered
+                        	 	, ad.cumulate_cases
+                        	 	, ad.cumulate_deaths
+                        	 	, ad.cumulate_recovered
+                        		, ad.source_id
                   	 ) b ON b.country_id = a.country_id
                   WHERE b.date = '%s'
-                  GROUP BY Country, Continent", in01_date)
-    #q2 <- sprintf("SELECT d.day_name FROM day d
-    #            JOIN time t on t.day_of_week = d.day_id WHERE t.date = '%s'", 
-    #              in01_date)
+                  GROUP BY Country, Continent, Code", in01_date)
     DB <- connectDB()
     out01_table <- dbGetQuery(DB, q1)
-    day <- toString(dbGetQuery(DB, q2)[1,1])
     dbDisconnect(DB)
-    if (nrow(out01_table) == 0){
+    out01_table
+  })
+  
+  output$out01_table <- renderDataTable({
+    if (nrow(tab1()) == 0){
       data.frame(message = "Hanya data dari 1 Januari 2020 hingga 30 Juni 2020 yang tersedia.")
     } else {
-      out01_table
+      tab1()
     }
+  })
+  
+  output$out01_plot1 <- renderPlot({
+    world <- TMWorldBorders
+    world <- merge(world, tab1(), by.x = "ISO3", by.y="code")
+    spplot(world,"covid_case", main="COVID-19 Case", na.rm = T)
+  })
+  
+  output$out01_plot2 <- renderPlot({
+    world <- TMWorldBorders
+    world <- merge(world, tab1(), by.x = "ISO3", by.y="code")
+    spplot(world,"cumulative_cases", main="COVID-19 Cumulative Case", na.rm = T)
   })
   
   # Tab COVID-19 by Country --------------------------------------
@@ -49,6 +71,9 @@ function(input, output, session){
                     , SUM(b.cases) as Covid_Case
                     , SUM(b.deaths) as Cases_of_Covid_Death
                     , SUM(b.recovered) as Covid_Recovery_Cases
+                    , SUM(b.cumulate_cases) as Cumulative_Cases
+                    , SUM(b.cumulate_deaths) as Cumulative_Deaths
+                    , SUM(b.cumulate_recovered) as Cumulative_Recovered
                     --, c.source_name as Source
               FROM country a
               JOIN (SELECT ad.time_id
@@ -57,6 +82,9 @@ function(input, output, session){
               	    , ad.cases
               	    , ad.deaths
               	    , ad.recovered
+              	    , ad.cumulate_cases
+              	    , ad.cumulate_deaths
+              	    , ad.cumulate_recovered
               	    --, ad.source_id
                     FROM data ad
                     JOIN time it ON it.time_id=ad.time_id
@@ -67,6 +95,9 @@ function(input, output, session){
                     	 	, ad.deaths
                     	 	, ad.recovered
                     		, ad.source_id
+                  	    , ad.cumulate_cases
+                  	    , ad.cumulate_deaths
+                  	    , ad.cumulate_recovered
               	 ) b ON b.country_id = a.country_id
               WHERE a.country_name = '%s'
               GROUP BY Date", in02_country)
@@ -83,6 +114,9 @@ function(input, output, session){
     q3 <- sprintf("SELECT SUM(b.cases) as Covid_Case
                         , SUM(b.deaths) as Cases_of_Covid_Death
                         , SUM(b.recovered) as Covid_Recovery_Cases
+                        , SUM(b.cumulate_cases) as Cumulative_Cases
+                        , SUM(b.cumulate_deaths) as Cumulative_Deaths
+                        , SUM(b.cumulate_recovered) as Cumulative_Recovered
                         --, c.source_name as Source
                   FROM country a
                   JOIN (SELECT ad.time_id
@@ -91,6 +125,9 @@ function(input, output, session){
                   	    , ad.cases
                   	    , ad.deaths
                   	    , ad.recovered
+                  	    , ad.cumulate_cases
+                  	    , ad.cumulate_deaths
+                  	    , ad.cumulate_recovered
                   	    --, ad.source_id
                         FROM data ad
                         JOIN time it ON it.time_id=ad.time_id
@@ -100,6 +137,9 @@ function(input, output, session){
                   		, ad.cases
                   	 	, ad.deaths
                   	 	, ad.recovered
+                  	 	, ad.cumulate_cases
+                  	  , ad.cumulate_deaths
+                  	  , ad.cumulate_recovered
                   		, ad.source_id
                   	 ) b ON b.country_id = a.country_id
                   WHERE b.date = '%s'
@@ -137,7 +177,7 @@ function(input, output, session){
   table2 <- reactive({
     in04_year <- toString(input$in04_year)
     q4b <- sprintf("SELECT d.convert_name as Country
-                          , AVG(a.value) as Health_Index
+                          ,  ROUND(AVG(CAST(a.value AS numeric)), 4) as Health_Index
                           -- , b.measure_value as Countermeasures_Mitigation
                     FROM country_health_index a
                     JOIN measurement b on b.country_id=a.country_id
@@ -189,5 +229,6 @@ function(input, output, session){
   })
   
   # Tab Country Testing Policy --------------------------------------
+  
   
 }
