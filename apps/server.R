@@ -264,7 +264,7 @@ function(input, output, session){
     fig4a <- plot_ly(tab4a(), x = ~country, y = ~health_index, type = 'bar', textposition = 'auto',
                      marker = list(color = 'rgb(158,202,225)',
                                    line = list(color = 'rgb(8,48,107)', width = 1.5)))
-    fig4a <- fig4a %>% layout(title = "Top 10 Health Index Countries",
+    fig4a <- fig4a %>% layout(title = "Top 10 Highest Health Index Countries",
                               xaxis = list(title = ""),
                               yaxis = list(title = ""))
     
@@ -275,7 +275,7 @@ function(input, output, session){
     fig4b <- plot_ly(tab4b(), x = ~country, y = ~health_index, type = 'bar', textposition = 'auto',
                      marker = list(color = 'rgb(158,202,225)',
                                    line = list(color = 'rgb(8,48,107)', width = 1.5)))
-    fig4b <- fig4b %>% layout(title = "Top 10 Health Index Countries",
+    fig4b <- fig4b %>% layout(title = "Top 10 Lowest Health Index Countries",
                               xaxis = list(title = ""),
                               yaxis = list(title = ""))
     
