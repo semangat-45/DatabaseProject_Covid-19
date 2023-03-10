@@ -87,3 +87,50 @@ spplot(world,"covid_case",main="COVID-19 Case", na.rm = T)
 spplot(world,"cumulative_cases",main="COVID-19 Cumulative Case")
 ```
 
+```{r}
+q2 <- sprintf("SELECT b.date as Date
+                    , SUM(b.cases) as Covid_Case
+                    , SUM(b.deaths) as Cases_of_Covid_Death
+                    , SUM(b.recovered) as Covid_Recovery_Cases
+                    , SUM(b.cumulate_cases) as Cumulative_Cases
+                    , SUM(b.cumulate_deaths) as Cumulative_Deaths
+                    , SUM(b.cumulate_recovered) as Cumulative_Recovered
+                    --, c.source_name as Source
+              FROM country a
+              JOIN (SELECT ad.time_id
+              	    , it.date
+              	    , ad.country_id
+              	    , ad.cases
+              	    , ad.deaths
+              	    , ad.recovered
+              	    , ad.cumulate_cases
+              	    , ad.cumulate_deaths
+              	    , ad.cumulate_recovered
+              	    --, ad.source_id
+                    FROM data ad
+                    JOIN time it ON it.time_id=ad.time_id
+                    GROUP BY ad.time_id
+                    		, it.date
+                    		, ad.country_id
+                    		, ad.cases
+                    	 	, ad.deaths
+                    	 	, ad.recovered
+                    		, ad.source_id
+                  	    , ad.cumulate_cases
+                  	    , ad.cumulate_deaths
+                  	    , ad.cumulate_recovered
+              	 ) b ON b.country_id = a.country_id
+              WHERE a.country_name = '%s'
+              GROUP BY Date", "Indonesia")
+g2 <- dbGetQuery(con, q2)
+g2
+```
+
+```{r}
+library(plotly)
+fig2a <- plot_ly(g2, x = ~date, y = ~covid_case, name = 'New Cases', type = 'scatter', mode = 'lines') 
+fig2a <- fig2a %>% add_trace(y = ~cases_of_covid_death, name = 'New Death', type = 'scatter', mode = 'lines') 
+fig2a <- fig2a %>% add_trace(y = ~covid_recovery_cases, name = 'New Recovery', type = 'scatter', mode = 'lines') 
+fig2a
+```
+

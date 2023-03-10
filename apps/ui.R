@@ -8,6 +8,7 @@ library(raster)
 library(rgdal)
 library(spdep)
 library(prevR)
+library(plotly)
 source("conf.R")
 
 countries <- dbGetQuery(connectDB(), "SELECT country_name FROM country")
@@ -81,9 +82,6 @@ dashboardPage(
         ),
         plotOutput(
           outputId = "out01_plot2"
-        ),
-        plotOutput(
-          outputId = "out01_plot3"
         )
       ),
       tabItem(
@@ -100,10 +98,10 @@ dashboardPage(
         dataTableOutput(
           outputId = "out02_table"
         ),
-        plotOutput(
+        plotlyOutput(
           outputId = "out02_plot1"
         ),
-        plotOutput(
+        plotlyOutput(
           outputId = "out02_plot2"
         )
       ),

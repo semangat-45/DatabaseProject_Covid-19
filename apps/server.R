@@ -65,7 +65,7 @@ function(input, output, session){
   })
   
   # Tab COVID-19 by Country --------------------------------------
-  output$out02_table <- renderDataTable({
+  tab2 <- reactive({
     in02_country <- input$in02_country
     q2 <- sprintf("SELECT b.date as Date
                     , SUM(b.cases) as Covid_Case
@@ -105,6 +105,24 @@ function(input, output, session){
     out02_table <- dbGetQuery(DB, q2)
     dbDisconnect(DB)
     out02_table
+  })
+  
+  output$out02_table <- renderDataTable({
+    tab2()
+  })
+  
+  output$out02_plot1 <- renderPlotly({
+    fig2a <- plot_ly(tab2(), x = ~date, y = ~covid_case, name = 'New Cases', type = 'scatter', mode = 'lines') 
+    fig2a <- fig2a %>% add_trace(y = ~cases_of_covid_death, name = 'New Death', type = 'scatter', mode = 'lines') 
+    fig2a <- fig2a %>% add_trace(y = ~covid_recovery_cases, name = 'New Recovery', type = 'scatter', mode = 'lines') 
+    fig2a
+  })
+  
+  output$out02_plot2 <- renderPlotly({
+    fig2b <- plot_ly(tab2(), x = ~date, y = ~cumulative_cases, name = 'Cumulative Cases', type = 'scatter', mode = 'lines') 
+    fig2b <- fig2b %>% add_trace(y = ~cumulative_deaths, name = 'Cumulative Death', type = 'scatter', mode = 'lines') 
+    fig2b <- fig2b %>% add_trace(y = ~cumulative_recovered, name = 'Cumulative Recovery', type = 'scatter', mode = 'lines') 
+    fig2b
   })
   
   # Tab COVID-19 by Date & Country --------------------------------------
