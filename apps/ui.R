@@ -126,9 +126,6 @@ dashboardPage(
         ),
         plotOutput(
           outputId = "out03_plot1"
-        ),
-        plotOutput(
-          outputId = "out03_plot2"
         )
       ),
       tabItem(

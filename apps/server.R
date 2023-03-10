@@ -126,10 +126,12 @@ function(input, output, session){
   })
   
   # Tab COVID-19 by Date & Country --------------------------------------
-  output$out03_table <- renderDataTable({
+  tab3 <- reactive({
     in03_date <- toString(input$in03_date)
     in03_country <- input$in03_country
-    q3 <- sprintf("SELECT SUM(b.cases) as Covid_Case
+    q3 <- sprintf("SELECT a.country_code as Code
+                        , a.convert_name as Country
+                        , SUM(b.cases) as Covid_Case
                         , SUM(b.deaths) as Cases_of_Covid_Death
                         , SUM(b.recovered) as Covid_Recovery_Cases
                         , SUM(b.cumulate_cases) as Cumulative_Cases
@@ -161,17 +163,29 @@ function(input, output, session){
                   		, ad.source_id
                   	 ) b ON b.country_id = a.country_id
                   WHERE b.date = '%s'
-                  AND a.country_name = '%s'", in03_date, in03_country)
+                  AND a.country_name = '%s'
+                  GROUP BY Country, Code", in03_date, in03_country)
     DB <- connectDB()
     out03_table <- dbGetQuery(DB, q3)
     dbDisconnect(DB)
-    if (nrow(out03_table) == 0){
+    out03_table
+  })
+  
+  output$out03_table <- renderDataTable({
+    if (nrow(tab3()) == 0){
       data.frame(message = "Hanya data dari 1 Januari 2020 hingga 30 Juni 2020 yang tersedia.")
     } else {
-      out03_table
+      tab3()
     }
   })
   
+  output$out03_plot1 <- renderPlot({
+    world <- TMWorldBorders
+    world <- merge(world, tab1(), by.x = "ISO3", by.y="code")
+    sub <- world[world$ISO3 == tab3()$code,]
+    plot(sub, col=world$ISO3); text(sub, tab3()$country, cex=1)
+  })
+
   # Tab COVID-19 Health Index and Mitigation --------------------------------------
   table1 <- reactive({
     in04_year <- toString(input$in04_year)
@@ -245,6 +259,7 @@ function(input, output, session){
     dbDisconnect(DB)
     out04_table3
   })
+
   
   # Tab Country Testing Policy --------------------------------------
   

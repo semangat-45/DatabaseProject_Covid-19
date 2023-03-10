@@ -134,3 +134,8 @@ fig2a <- fig2a %>% add_trace(y = ~covid_recovery_cases, name = 'New Recovery', t
 fig2a
 ```
 
+```{r}
+aus <- world[world$ISO3 == "AUS",]
+plot(aus, col=world$ISO3); text(aus, "Australia", cex=1)
+```
+
