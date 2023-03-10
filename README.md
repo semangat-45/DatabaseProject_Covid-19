@@ -410,10 +410,12 @@ ALTER TABLE IF EXISTS public.data
 └── README.md
 ```
 
-## :smiley_cat: Tim Pengembang
+## Deskripsi Role & Kontributor
 
-- [@walternascimentobarroso](https://walternascimentobarroso.github.io/)
-- Full-Stack Developer: [Alfa Nugraha](https://github.com/alfanugraha) G1501211013
+1. Database Manager (Rizki Alifah Putri - G1501221005)
+2. Shiny Developer (Nur Khamidah - G1501221023 (Back-end), Bayu Paramita - G1501221052 (Front-end))
+3. Technical Writer (Kristuisno M. Kapiluka - G1501221034)
+
 
 
 
