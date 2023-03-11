@@ -55,13 +55,31 @@ function(input, output, session){
   output$out01_plot1 <- renderPlot({
     world <- TMWorldBorders
     world <- merge(world, tab1(), by.x = "ISO3", by.y="code")
-    spplot(world,"covid_case", main="COVID-19 Case", na.rm = T)
+    tryCatch(               
+      expr = {                     
+        spplot(world,"covid_case", main="COVID-19 Case", na.rm = T)
+      },
+      error = function(e){         
+        paste0("")
+      },
+      warning = function(w){      
+        paste0("")
+      })
   })
   
   output$out01_plot2 <- renderPlot({
     world <- TMWorldBorders
     world <- merge(world, tab1(), by.x = "ISO3", by.y="code")
-    spplot(world,"cumulative_cases", main="COVID-19 Cumulative Case", na.rm = T)
+    tryCatch(               
+      expr = {                     
+        spplot(world,"cumulative_cases", main="COVID-19 Cumulative Case", na.rm = T)
+      },
+      error = function(e){         
+        paste0("")
+      },
+      warning = function(w){      
+        paste0("")
+      })
   })
   
   # Tab COVID-19 by Country --------------------------------------
@@ -108,7 +126,16 @@ function(input, output, session){
   })
   
   output$out02_table <- renderDataTable({
-    tab2()
+    tryCatch(               
+      expr = {                     
+        tab2()
+      },
+      error = function(e){         
+        paste0("")
+      },
+      warning = function(w){      
+        paste0("")
+      })
   })
   
   output$out02_plot1 <- renderPlotly({
@@ -172,11 +199,16 @@ function(input, output, session){
   })
   
   output$out03_table <- renderDataTable({
-    if (nrow(tab3()) == 0){
-      data.frame(message = "Hanya data dari 1 Januari 2020 hingga 30 Juni 2020 yang tersedia.")
-    } else {
-      tab3()
-    }
+    tryCatch(               
+      expr = {                     
+        tab3()
+      },
+      error = function(e){         
+        paste0("")
+      },
+      warning = function(w){      
+        paste0("")
+      })
   })
   
   output$out03_plot1 <- renderPlot({
