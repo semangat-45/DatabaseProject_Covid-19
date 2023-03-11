@@ -28,10 +28,14 @@
 - [Tim Pengembang](#smiley_cat-tim-pengembang)
 
 ## :scroll: Tentang
+Project ini merupakan tugas akhir mata kuliah STA1562 mengenai basis data (database). Database yang digunakan merupakan database COVID-19 yang berisi kasus COVID-19 di 210 negara di dunia, yang sumbernya diproleh dari:
 
-Data rekaman Covid'19 yang ada di seluruh dunia dari tanggal 1 Januari 2020 - 30 Juni 2020 yang direkam dari berbagai sumber dengan memperhatikan mitigasi dan indeks kesehatan dari masing - masing negara dalam kurun waktu tertentu.  
+- Johns Hopkins University
+- World Health Organisation (WHO)
+- European Centre for Disease Prevention and Control (ECDC)
 
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut praesentium neque assumenda! Tempore culpa nihil laborum distinctio vel, illo quod veniam. Excepturi soluta beatae sed iusto sunt, impedit ducimus dignissimos?
+Dari database ini akan ditampilkan jumlahan kasus COVID-19 (kasus baru, sembuh, dan meninggal) dari suatu negara pada kurun waktu tertentu yaitu dari tanggal 1 Januari 2020 - 30 Juni 2020 . yang direkam dari berbagai sumber dengan memperhatikan mitigasi dan indeks kesehatan dari masing - masing negara. Data dalam database ini dapat di akses dalam file .sql yang telah diunggah dalam repository ini.
+
 
 ## :rice_scene: Screenshot
 
