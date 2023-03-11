@@ -171,11 +171,6 @@ dashboardPage(
         h1(
           "Testing Policy Dashboard"
         ),
-        dateRangeInput(
-          inputId = "in05_date",
-          label = "Masukkan Rentang Tanggal",
-          width = "100%"
-        ),
         selectInput(
           inputId = "in05_country",
           label = "Masukkan Negara",

@@ -283,6 +283,97 @@ function(input, output, session){
   })
   
   # Tab Country Testing Policy --------------------------------------
+  tab5a <- reactive({
+    in05_country <- input$in05_country
+    q5 <- sprintf("SELECT b.date
+      		-- , ct.convert_name as country
+      		, a.value as Number_Of_Testing
+      		, SUM(c.cases) as New_Case
+      		, SUM(c.deaths) as New_Death
+      		, SUM(c.recovered) as New_Recover
+      		, (SUM(c.cases)+c.cumulate_cases) as Total_Cases
+      		, (SUM(c.deaths)+c.cumulate_deaths) as Total_Deaths
+      		, (SUM(c.recovered)+c.cumulate_recovered) as Total_Recovered
+      		, e.value as Health_Index
+      		-- , d.measure_value as Mitigation
+      		-- , d.Category
+      FROM country_testing_policy a
+      JOIN country ct ON ct.country_id=a.country_id
+      JOIN time b ON b.time_id=a.time_id 
+      JOIN data c ON c.time_id=a.time_id and c.country_id=a.country_id
+      JOIN (SELECT aa.country_id
+      	  		, max(value) as value
+      	  FROM country_health_index aa
+      	  JOIN(SELECT country_id
+      		   		, max(time_id) as time_id
+      	  	   FROM country_health_index
+      		     GROUP BY country_id) bb ON bb.time_id=aa.time_id and bb.country_id=aa.country_id
+      	       GROUP BY aa.country_id
+      	  ) e ON e.country_id=a.country_id
+      JOIN measurement d ON d.country_id=a.country_id and d.time_id=a.time_id
+      WHERE a.value != '0' AND ct.convert_name = '%s'
+      GROUP BY b.date
+      		, a.value
+      		, c.cumulate_cases
+      		, c.cumulate_deaths
+      		, c.cumulate_recovered
+      		, e.value
+      		, ct.convert_name
+      		, d.measure_value
+      		, d.category
+      HAVING SUM(c.cases) > 0
+      Order by b.date asc", in05_country)
+    DB <- connectDB()
+    out05_table1 <- dbGetQuery(DB, q5)
+    dbDisconnect(DB)
+    out05_table1
+  })
   
+  tab5b <- reactive({
+    in05_country <- input$in05_country
+    q5 <- sprintf("SELECT b.date
+      		-- , ct.convert_name as country
+      		, e.value as Health_Index
+      		, d.measure_value as Mitigation
+      		, d.Category
+      FROM country_testing_policy a
+      JOIN country ct ON ct.country_id=a.country_id
+      JOIN time b ON b.time_id=a.time_id 
+      JOIN data c ON c.time_id=a.time_id and c.country_id=a.country_id
+      JOIN (SELECT aa.country_id
+      	  		, max(value) as value
+      	  FROM country_health_index aa
+      	  JOIN(SELECT country_id
+      		   		, max(time_id) as time_id
+      	  	   FROM country_health_index
+      		     GROUP BY country_id) bb ON bb.time_id=aa.time_id and bb.country_id=aa.country_id
+      	       GROUP BY aa.country_id
+      	  ) e ON e.country_id=a.country_id
+      JOIN measurement d ON d.country_id=a.country_id and d.time_id=a.time_id
+      WHERE a.value != '0' AND ct.convert_name = '%s'
+      GROUP BY b.date
+      		, a.value
+      		, c.cumulate_cases
+      		, c.cumulate_deaths
+      		, c.cumulate_recovered
+      		, e.value
+      		, ct.convert_name
+      		, d.measure_value
+      		, d.category
+      HAVING SUM(c.cases) > 0
+      Order by b.date asc", in05_country)
+    DB <- connectDB()
+    out05_table2 <- dbGetQuery(DB, q5)
+    dbDisconnect(DB)
+    out05_table2
+  })
+  
+  output$out05_table1 <- renderDataTable({
+    tab5a()
+  })
+  
+  output$out05_table2 <- renderDataTable({
+    tab5b()
+  })
   
 }
