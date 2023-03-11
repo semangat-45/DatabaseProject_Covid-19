@@ -1,88 +1,165 @@
 -- Database: covid--
 
--- Tab COVID-19 by Country & Date--
-SELECT b.date as Date
-      , a.continent as Continent  
-      , a.convert_name as Country
-      , b.cases as Covid_Case
-      , b.deaths as Cases_of_Covid_Death
-      , b.recovered as Covid_Recovery_Cases
+-- Tab 1 COVID-19 by Date--
+SELECT a.continent as Continent
+	, a.convert_name as Country
+	, a.country_code as Code
+	, SUM(b.cases) as Covid_Case
+	, SUM(b.deaths) as Cases_of_Covid_Death
+	, SUM(b.recovered) as Covid_Recovery_Cases
+	, SUM(b.cumulate_cases) as Cumulative_Cases
+	, SUM(b.cumulate_deaths) as Cumulative_Deaths
+	, SUM(b.cumulate_recovered) as Cumulative_Recovered
       --, c.source_name as Source
 FROM country a
 JOIN (SELECT ad.time_id
-	    , it.date
-	    , ad.country_id
-	    , ad.cases
-	    , ad.deaths
-	    , ad.recovered
-	    --, ad.source_id
-      FROM data ad
-      JOIN time it ON it.time_id=ad.time_id
-      GROUP BY ad.time_id
-      		, it.date
-		, ad.country_id
-		, ad.cases
-	 	, ad.deaths
-	 	, ad.recovered
-		, ad.source_id
-	 ) b ON b.country_id = a.country_id
---JOIN source c ON c.source_id=b.source_id
-GROUP BY b.date
-	, a.continent
-	, a.convert_name
-	, b.cases
-	, b.deaths
-	, b.recovered
---, c.source_name
-ORDER BY b.date asc
+            , it.date
+            , ad.country_id
+            , ad.cases
+            , ad.deaths
+            , ad.recovered
+            , ad.cumulate_cases
+            , ad.cumulate_deaths
+            , ad.cumulate_recovered
+          --, ad.source_id
+       FROM data ad
+       JOIN time it ON it.time_id=ad.time_id
+       GROUP BY ad.time_id
+                , it.date
+                , ad.country_id
+                , ad.cases
+                , ad.deaths
+                , ad.recovered
+                , ad.cumulate_cases
+                , ad.cumulate_deaths
+                , ad.cumulate_recovered
+                , ad.source_id
+        ) b ON b.country_id = a.country_id
+WHERE b.date = '2020-03-02'
+GROUP BY convert_name
+	, Continent
+	, country_code
 
-
---Tab COVID-19 by Cases--
+--Tab 2 COVID-19 by Country--
 SELECT b.date as Date
-	, b.year as Year
-	, b.Month as Month
-	, a.cases as Covid_Case
-	, a.deaths as Cases_of_Covid_Death
-	, a.recovered as Covid_Recovery_Cases
-FROM data a
-JOIN time b ON b.time_id=a.time_id
-
-
---Tab list of countries affected by covid and carrying out covid testing--
-
-SELECT c.date as Date
-	, d.convert_name as Country
-	, a.value as Number_of_Test
-	, sum(b.cases) as Covid_Case
-	, sum(b.deaths) as Cases_of_Covid_Death
-	, sum(b.recovered) as Covid_Recovery_Cases
-FROM country_testing_policy a
-JOIN (SELECT time_id
-	    , country_id
-	    , cases
-	    , deaths
-	    , recovered
-       FROM data
-       GROUP BY time_id
-       		, country_id
-	  	, cases
-	 	, deaths
-	  	, recovered
-	order by country_id asc) b ON b.time_id=a.time_id AND b.country_id=a.country_id
-JOIN time c ON c.time_id = a.time_id
-JOIN country d ON d.country_id = a.country_id
-GROUP BY c.date
-	, d.convert_name
-	, a.value
-HAVING sum(b.cases) > 0
-
---tab Health Index By Country and Mitigation--
-SELECT c.date as Date_Based_On_Health_Index
-      , d.convert_name as Country
-      , a.value as Health_Index
-      , b.measure_value as Countermeasures_Mitigation
+       , SUM(b.cases) as Covid_Case
+       , SUM(b.deaths) as Cases_of_Covid_Death
+       , SUM(b.recovered) as Covid_Recovery_Cases
+       , SUM(b.cumulate_cases) as Cumulative_Cases
+       , SUM(b.cumulate_deaths) as Cumulative_Deaths
+       , SUM(b.cumulate_recovered) as Cumulative_Recovered
+     --, c.source_name as Source
+FROM country a
+JOIN (SELECT ad.time_id
+             , it.date
+             , ad.country_id
+             , ad.cases
+             , ad.deaths
+             , ad.recovered
+             , ad.cumulate_cases
+             , ad.cumulate_deaths
+             , ad.cumulate_recovered
+           --, ad.source_id
+       FROM data ad
+       JOIN time it ON it.time_id=ad.time_id
+       GROUP BY ad.time_id
+                , it.date
+                , ad.country_id
+                , ad.cases
+                , ad.deaths
+                , ad.recovered
+                , ad.source_id
+                , ad.cumulate_cases
+                , ad.cumulate_deaths
+                , ad.cumulate_recovered
+        ) b ON b.country_id = a.country_id
+WHERE a.country_name = 'Indonesia'
+GROUP BY Date
 	
+-- Tab 3 COVID-19 by Date & Country--
+SELECT a.country_code as Code
+	, a.convert_name as Country
+	, SUM(b.cases) as Covid_Case
+	, SUM(b.deaths) as Cases_of_Covid_Death
+	, SUM(b.recovered) as Covid_Recovery_Cases
+	, SUM(b.cumulate_cases) as Cumulative_Cases
+	, SUM(b.cumulate_deaths) as Cumulative_Deaths
+	, SUM(b.cumulate_recovered) as Cumulative_Recovered
+      --, c.source_name as Source
+FROM country a
+JOIN (SELECT ad.time_id
+            , it.date
+            , ad.country_id
+            , ad.cases
+            , ad.deaths
+            , ad.recovered
+            , ad.cumulate_cases
+            , ad.cumulate_deaths
+            , ad.cumulate_recovered
+          --, ad.source_id
+       FROM data ad
+       JOIN time it ON it.time_id=ad.time_id
+       GROUP BY ad.time_id
+                , it.date
+                , ad.country_id
+                , ad.cases
+                , ad.deaths
+                , ad.recovered
+                , ad.cumulate_cases
+                , ad.cumulate_deaths
+                , ad.cumulate_recovered
+                , ad.source_id
+        ) b ON b.country_id = a.country_id
+WHERE b.date = '2020-03-02'
+AND a.convert_name = 'Afghanistan'  
+GROUP BY Country_code
+	, a.convert_name
+
+
+
+-- Tab 4 Health Index Statistics--
+SELECT d.convert_name as Country
+      ,  ROUND(AVG(CAST(a.value AS numeric)), 4) as Health_Index
+   -- , b.measure_value as Countermeasures_Mitigation
 FROM country_health_index a
 JOIN measurement b on b.country_id=a.country_id
 JOIN time c ON c.time_id=a.time_id 
 JOIN country d ON d.country_id=a.country_id
+WHERE c.year = '2015'
+GROUP BY Country
+ORDER BY Health_Index ASC
+LIMIT 10
+
+-- Tab 5 Testing Policy--
+SELECT b.date
+   -- , ct.convert_name as country
+      , e.value as Health_Index
+      , d.measure_value as Mitigation
+      , d.Category
+FROM country_testing_policy a
+JOIN country ct ON ct.country_id=a.country_id
+JOIN time b ON b.time_id=a.time_id 
+JOIN data c ON c.time_id=a.time_id and c.country_id=a.country_id
+JOIN (SELECT aa.country_id
+      	    , max(value) as value
+      FROM country_health_index aa
+      JOIN(SELECT country_id
+      		  , max(time_id) as time_id
+      	   FROM country_health_index
+      	   GROUP BY country_id) bb ON bb.time_id=aa.time_id and bb.country_id=aa.country_id
+      GROUP BY aa.country_id
+      ) e ON e.country_id=a.country_id
+JOIN measurement d ON d.country_id=a.country_id and d.time_id=a.time_id
+WHERE a.value != '0' 
+AND ct.convert_name = 'Indonesia'
+GROUP BY b.date
+      	, a.value
+      	, c.cumulate_cases
+      	, c.cumulate_deaths
+      	, c.cumulate_recovered
+      	, e.value
+      	, ct.convert_name
+      	, d.measure_value
+      	, d.category
+HAVING SUM(c.cases) > 0
+Order by b.date asc
