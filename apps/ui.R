@@ -61,7 +61,65 @@ dashboardPage(
       tabItem(
         tabName = "home",
         h1(
-          "Home"
+          "COVID-19 Database Home Page"
+        ),
+        fluidRow(
+          column(
+            width = 4
+          ),
+          column(
+            width = 4,
+            htmlOutput("logo")
+          ),
+          column(
+            width = 4
+          )
+        ),
+        fluidRow(
+          column(
+            width = 6,
+            tags$p(
+              "Selamat datang di halaman proyek  database COVID-19. Dalam proyek ini, kamu akan dapat mengakses informasi mengenai banyak hal, seperti:"
+            ),
+            fluidRow(
+              column(
+                width = 12,
+                fluidRow(
+                  column(
+                    width = 12,
+                    tags$ul(
+                      tags$li(
+                        "Informasi jumlah kasus COVID-19 yang baru, meninggal, atau sembuh di seluruh dunia dari 1 Januari 2020 hingga 30 Juni 2020"
+                      )
+                    )
+                  )
+                ),
+                fluidRow(
+                  column(
+                    width = 12,
+                    tags$ul(
+                      tags$li(
+                        "Informasi mengenai indeks kesehatan yang dicapai 210 negara di seluruh dunia sejak tahun 1990"
+                      )
+                    )
+                  )
+                ),
+                fluidRow(
+                  column(
+                    width = 12,
+                    tags$ul(
+                      tags$li(
+                        "Informasi mengenai mitigasi yang dilakukan oleh negara-negara di dunia dalam menangani COVID-19"
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          ),
+          column(
+            width = 6
+          )
         )
       ),
       tabItem(
@@ -162,7 +220,7 @@ dashboardPage(
         uiOutput(
           outputId = "out04_ui"
         ),
-        tableOutput(
+        dataTableOutput(
           outputId = "out04_table3"
         ),
       ),

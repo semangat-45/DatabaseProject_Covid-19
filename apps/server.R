@@ -1,4 +1,15 @@
 function(input, output, session){
+  # Tab Home --------------------------------------------------
+  output$logo <- renderText({
+    c(
+      '<img src="',
+      "https://www.github.com/semangat-45/DatabaseProject_Covid-19/blob/main/docs/logo.PNG",
+      '">'
+    )
+    # logo_src <- ""
+    # tag$img(src = logo_src, width=300, height=300)
+  })
+  
   # Tab COVID-19 by Date --------------------------------------
   tab1 <- reactive({
     in01_date <- toString(input$in01_date)
