@@ -416,9 +416,10 @@ ALTER TABLE IF EXISTS public.data
 
 ## Deskripsi Role & Kontributor
 
-1. Database Manager (Rizki Alifah Putri - G1501221005)
-2. Shiny Developer (Nur Khamidah - G1501221023 (Back-end), Bayu Paramita - G1501221052 (Front-end))
-3. Technical Writer (Kristuisno M. Kapiluka - G1501221034)
+1. Rizki Alifah Putri (G1501221005 - rizkialifah@apps.ipb.ac.id) as Database Manager
+2. Nur Khamidah (G1501221023 - nur.khamidah@apps.ipb.ac.id) as Back-end Shiny Developer
+3. Bayu Paramita (G1501222052 - bayu.paramita@apps.ipb.ac.id) as Front-end Shiny Developer
+4. Kristuisno M. Kapiluka (G1501221034-kris009kapiluka@apps.ipb.ac.id) as Technical Writer
 
 
 
