@@ -9,7 +9,6 @@ library(rgdal)
 library(spdep)
 library(prevR)
 library(plotly)
-library(png)
 source("conf.R")
 
 countries <- dbGetQuery(connectDB(), "SELECT country_name FROM country")
@@ -71,7 +70,9 @@ dashboardPage(
           ),
           column(
             width = 4,
-            div(style="display: inline-block; width: 33%; margin-bottom:50px; margin-top:50px",img(src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/logo.PNG", height=150, width=150))
+            div(style="display: inline-block; width: 100%", 
+                align = "center",
+                img(src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/logo.PNG", height=150, width=150))
           ),
           column(
             width = 4,
@@ -132,8 +133,15 @@ dashboardPage(
                   tags$li("Rizki Alifah Putri (G1501221005 - rizkialifah@apps.ipb.ac.id) as Database Manager"),
                   tags$li("Nur Khamidah (G1501221023 - nur.khamidah@apps.ipb.ac.id) as Back-end Shiny Developer"),
                   tags$li("Bayu Paramita (G1501222052 - bayu.paramita@apps.ipb.ac.id) as Front-end Shiny Developer"),
-                  tags$li("Kristuisno M. Kapiluka (G1501221034-kris009kapiluka@apps.ipb.ac.id) as Technical Writer")
+                  tags$li("Kristuisno M. Kapiluka (G1501221034 - kris009kapiluka@apps.ipb.ac.id) as Technical Writer")
                 )
+              )
+            ),
+            fluidRow(
+              column(
+                width = 12,
+                tags$p("Adapun project ini dapat juga diakses melalui link berikut:"),
+                tags$a(href = "https://github.com/semangat-45/DatabaseProject_Covid-19", "GITHUB PROJECT COVID-19 DATABASE")
               )
             )
           ),
@@ -143,6 +151,39 @@ dashboardPage(
                 width: 33%; margin-bottom:10px; margin-top:50px",
                 img(src="https://images.pexels.com/photos/6366444/pexels-photo-6366444.jpeg", width = 500)),
             tags$p(style='margin-left:40px', "Sumber: Pexels/Atypeek Dgn")
+          )
+        ),
+        fluidRow(
+          column(
+            width = 12,
+            align = "center",
+            tags$h3(style='padding-top:30px; padding-bottom:20px', "OUR TEAM")
+          )
+        ),
+        fluidRow(
+          column(
+            width = 3,
+            div(style="display: inline-block; width: 100%", 
+                align = "center",
+                img(src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/logo.PNG", height=150, width=150))
+          ),
+          column(
+            width = 3,
+            div(style="display: inline-block; width: 100%", 
+                align = "center",
+                img(src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/logo.PNG", height=150, width=150))
+          ),
+          column(
+            width = 3,
+            div(style="display: inline-block; width: 100%", 
+                align = "center",
+                img(src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/logo.PNG", height=150, width=150))
+          ),
+          column(
+            width = 3,
+            div(style="display: inline-block; width: 100%", 
+                align = "center",
+                img(src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/logo.PNG", height=150, width=150))
           )
         )
       ),
