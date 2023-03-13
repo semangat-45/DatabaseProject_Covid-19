@@ -398,19 +398,25 @@ ALTER TABLE IF EXISTS public.data
 ```
 .
 ├── app           # ShinyApps
-│   ├── css
-│   │   ├── **/*.css
+│   ├── rsconnect/shinyapps.io/nur-khamidah
+│   │   ├── covid_database_project.dcf
 │   ├── server.R
 │   └── ui.R
-├── data 
-│   ├── csv
-│   │   ├── **/*.css
-│   └── sql
-|       └── db.sql
-├── src           # Project source code
-├── doc           # Doc for the project
+├── data           # Data for the project
+│   ├── R-syntax-for-postgresql-connect.Rmd
+│   ├── R_syntax_for_postgresql_connect.Rmd
+|   ├── R_syntax_plot_test.Rmd
+|   ├── covid.sql
+│   ├── create_covid.txt
+|   ├── create_sql_for_rshinny.txt
+│   └── data_migration_local_to_server.R
+├── docs           # Project documents
+│   ├── R-syntax-for-postgresql-connect.Rmd
+│   ├── R_syntax_for_postgresql_connect.Rmd
+|   ├── R_syntax_plot_test.Rmd
+├── .DS_store           
 ├── .gitignore
-├── LICENSE
+├── Covid_19_Database.Rproj
 └── README.md
 ```
 
