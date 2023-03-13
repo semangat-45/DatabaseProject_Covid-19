@@ -39,15 +39,15 @@ Dari database ini akan ditampilkan jumlahan kasus COVID-19 (kasus baru, sembuh, 
 
 ## :rice_scene: Screenshot
 
-![Logo](https://via.placeholder.com/750x500)
+<img src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/screenshot_home.png" width="750">
 
 ## :dvd: Demo
 
 Di bawah ini merupakan tautan untuk mendemokan aplikasi ShinyApp 
 
-| url                      | login          | password |
-| ------------------------ | -------------- | -------- |
-| http://shinyapps.io/covid| admin@mail.com | 123      |
+| url                      | 
+| ------------------------ | 
+| https://nur-khamidah.shinyapps.io/covid_database_project/| 
 
 ## :blue_book: Dokumentasi 
 
@@ -55,9 +55,9 @@ Dokumentasi penggunaan aplikasi database. Anda dapat juga membuat dokumentasi li
 
 ## :exclamation: Requirements
 
-- Cantumkan paket R yang digunakan
 - PostgreSQL 
 - ElephantSQL
+- RStudio 2022.12.0+353
 
 ## :floppy_disk: Skema Database
 
@@ -66,7 +66,7 @@ Dokumentasi penggunaan aplikasi database. Anda dapat juga membuat dokumentasi li
 
 ## :rotating_light: ERD
 
-<img width="242" alt="skema update" src="https://github.com/Kelompok4MDS/Project-Praktikum-MDS/blob/main/ERD%20Liga%20Inggris.png?raw=true">
+<img src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/Untitled.png" width="750">
 
 ## :heavy_check_mark: Deskripsi Data
 
