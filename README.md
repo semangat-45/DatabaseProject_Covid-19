@@ -61,8 +61,7 @@ Dokumentasi penggunaan aplikasi database. Anda dapat juga membuat dokumentasi li
 
 ## :floppy_disk: Skema Database
 
-<img width="242" alt="skema update" src="https://user-images.githubusercontent.com/111562803/223139863-0f7b7950-6586-49aa-9e6c-5c756d2a0375.png">
-
+<img src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/skema.png" width="750">
 
 ## :rotating_light: ERD
 
@@ -195,7 +194,7 @@ Tabel country merupakan tabel yang berisi dimensi waktu. Detail atribut dan desk
 | month        | integer, foreign key  | Reference ke kolom `month.month_id`   |
 | year         | integer               | Tahun                                 |
 | week         | integer               | Minggu ke berapa pada tahun tersebut  |
-| day_of_week  | integer, foreign key  | Reference ke kolom `day.day_id        |
+| day_of_week  | integer, foreign key  | Reference ke kolom `day.day_id`       |
 
 ### Create Table time
 
@@ -234,7 +233,7 @@ Tabel ini berisi indeks kesehatan sebuah negara pada waktu tertentu. Detail atri
 | Attribute    | Type                  | Description                                    |
 |:-------------|:----------------------|:-----------------------------------------------|
 | country_id   | integer, foreign key  | Reference ke `country.country_id`              |
-| time_id      | integer, foreign_key  | Reference ke `time.time_id                     |
+| time_id      | integer, foreign_key  | Reference ke `time.time_id`                    |
 | value        | double precision      | Indeks kesehatan negara itu pada waktu tertentu|
 
 ### Create Table country_health_index
@@ -268,7 +267,7 @@ Tabel ini merupakan tabel yang memuat indikator apakah negara tersebut pada wakt
 | Attribute    | Type                  | Description                                    |
 |:-------------|:----------------------|:-----------------------------------------------|
 | country_id   | integer, foreign key  | reference ke `country.country_id`              |
-| time_id      | integer, foreign_key  | Reference ke `time.time_id                     |
+| time_id      | integer, foreign_key  | Reference ke `time.time_id`                    |
 | value        | char                  | status keterangan menerapkan testing policy    |
 
 ### Create Table country_testing_policy
@@ -303,11 +302,11 @@ Tabel ini merupakan tabel kebijakan mengenai COVID-19 yang diterapkan suatu nega
 | Attribute    | Type                  | Description                                    |
 |:-------------|:----------------------|:-----------------------------------------------|
 | country_id   | integer, foreign key  | Reference ke `country.country_id`              |
-| time_id      | integer, foreign_key  | Reference ke `time.time_id                     |
+| time_id      | integer, foreign_key  | Reference ke `time.time_id`                    |
 | measure_value| varchar(100)          | nama kebijakan yang diambil                    |
 | note         | varchar(100)          | catatan                                        |
 | category     | varchar(50)           | kategori kebijakan                             |
-| source_id    | integer, foreign key  | reference ke `source.source_id                 |
+| source_id    | integer, foreign key  | reference ke `source.source_id`                |
 
 
 ### Create Table measurement
@@ -348,14 +347,14 @@ Tabel ini merupakan tabel hasil observasi COVID-19 menurut negara dan waktu, ser
 | Attribute           | Type                  | Description                       |
 |:--------------------|:----------------------|:----------------------------------|
 | country_id          | integer, foreign key  | Reference ke `country.country_id` |
-| time_id             | integer, foreign_key  | Reference ke `time.time_id        |
+| time_id             | integer, foreign_key  | Reference ke `time.time_id`       |
 | cases               | integer               | banyak kasus aktif                |
 | deaths              | integer               | banyak kasus meninggal            |
 | recovered           | integer               | banyak kasus sembuh               |
 | cumulative_cases    | bigint                | kumulatif kasus aktif             |
 | cumulative_deaths   | bigint                | kumulatif kasus meninggal         |
 | cumulative_recovered| bigint                | kumulatif kasus sembuh            |
-| source_id           | integer, foreign key  | reference ke `source.source_id    |
+| source_id           | integer, foreign key  | reference ke `source.source_id`   |
 
 
 ### Create Table data
@@ -411,9 +410,15 @@ ALTER TABLE IF EXISTS public.data
 |   ├── create_sql_for_rshinny.txt
 │   └── data_migration_local_to_server.R
 ├── docs           # Project documents
-│   ├── R-syntax-for-postgresql-connect.Rmd
-│   ├── R_syntax_for_postgresql_connect.Rmd
-|   ├── R_syntax_plot_test.Rmd
+│   ├── BE.png
+│   ├── DBM.png
+|   ├── FE.png
+|   ├── TW.png
+|   ├── Untitled.png        # ERD
+│   ├── covid.png           # Image for ShinyApps Home
+|   ├── logo.PNG
+│   ├── screenshot_home.png
+│   └── skema.png
 ├── .DS_store           
 ├── .gitignore
 ├── Covid_19_Database.Rproj
