@@ -51,7 +51,7 @@ Di bawah ini merupakan tautan untuk mendemokan aplikasi ShinyApp
 
 ## :blue_book: Dokumentasi 
 
-Dokumentasi penggunaan aplikasi database. Anda dapat juga membuat dokumentasi lives menggunakan readthedocs.org (opsional).
+Dokumentasi penggunaan aplikasi database dapat diakses pada [link ini.](https://github.com/semangat-45/DatabaseProject_Covid-19/blob/main/docs/documentations.pdf)
 
 ## :exclamation: Requirements
 
@@ -416,6 +416,7 @@ ALTER TABLE IF EXISTS public.data
 |   ├── TW.png
 |   ├── Untitled.png        # ERD
 │   ├── covid.png           # Image for ShinyApps Home
+|   ├── documentations.pdf
 |   ├── logo.PNG
 │   ├── screenshot_home.png
 │   └── skema.png
