@@ -9,6 +9,7 @@ library(rgdal)
 library(spdep)
 library(prevR)
 library(plotly)
+library(png)
 source("conf.R")
 
 countries <- dbGetQuery(connectDB(), "SELECT country_name FROM country")
@@ -65,23 +66,29 @@ dashboardPage(
         ),
         fluidRow(
           column(
-            width = 4
+            width = 4,
+            div(style="display: inline-block; width: 33%;",img(src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png", height=150, width=150))
           ),
           column(
             width = 4,
-            htmlOutput("logo")
+            div(style="display: inline-block; width: 33%; margin-bottom:50px; margin-top:50px",img(src="https://raw.githubusercontent.com/semangat-45/DatabaseProject_Covid-19/main/docs/logo.PNG", height=150, width=150))
           ),
           column(
-            width = 4
+            width = 4,
+            div(style="display: inline-block; width: 33%;",img(src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Solid_white.png", height=150, width=150))
           )
         ),
         fluidRow(
           column(
             width = 6,
-            tags$p(
-              "Selamat datang di halaman proyek  database COVID-19. Dalam proyek ini, kamu akan dapat mengakses informasi mengenai banyak hal, seperti:"
-            ),
             fluidRow(
+              column(
+                width = 12,
+                tags$p(
+                  "Selamat datang di halaman proyek  database COVID-19. Dalam proyek ini, kamu akan dapat mengakses informasi mengenai banyak hal, seperti:"
+                )
+                )
+              ),
               column(
                 width = 12,
                 fluidRow(
@@ -113,12 +120,29 @@ dashboardPage(
                       )
                     )
                   )
+              )
+            ),
+            fluidRow(
+              column(
+                width = 12,
+                tags$p(
+                  "Project ini merupakan tugas kelompok mata kuliah STA1562 Manajemen Data Statistika. Project ini dibimbing oleh Alfa Nugraha Pradana S.Kom. dengan anggota project kelompok sebagai berikut:"
+                ),
+                tags$ul(
+                  tags$li("Rizki Alifah Putri (G1501221005 - rizkialifah@apps.ipb.ac.id) as Database Manager"),
+                  tags$li("Nur Khamidah (G1501221023 - nur.khamidah@apps.ipb.ac.id) as Back-end Shiny Developer"),
+                  tags$li("Bayu Paramita (G1501222052 - bayu.paramita@apps.ipb.ac.id) as Front-end Shiny Developer"),
+                  tags$li("Kristuisno M. Kapiluka (G1501221034-kris009kapiluka@apps.ipb.ac.id) as Technical Writer")
                 )
               )
             )
           ),
           column(
-            width = 6
+            width = 6,
+            div(style="display: inline-block; margin-left:40px; margin-right:50px; 
+                width: 33%; margin-bottom:10px; margin-top:50px",
+                img(src="https://images.pexels.com/photos/6366444/pexels-photo-6366444.jpeg", width = 500)),
+            tags$p(style='margin-left:40px', "Sumber: Pexels/Atypeek Dgn")
           )
         )
       ),
