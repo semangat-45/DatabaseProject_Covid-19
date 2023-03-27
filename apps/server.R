@@ -201,9 +201,20 @@ function(input, output, session){
   })
   
   output$out03_table <- renderDataTable({
+    if (nrow(tab3()) == 0){
+      data.frame(message = "Hanya data dari 1 Januari 2020 hingga 30 Juni 2020 yang tersedia.")
+    } else {
+      tab3()
+    }
+  })
+  
+  output$out03_plot1 <- renderPlot({
+    world <- TMWorldBorders
+    world <- merge(world, tab1(), by.x = "ISO3", by.y="code")
+    sub <- world[world$ISO3 == tab3()$code,]
     tryCatch(               
       expr = {                     
-        tab3()
+        plot(sub, col=world$ISO3); text(sub, tab3()$country, cex=1)
       },
       error = function(e){         
         paste0("")
@@ -211,13 +222,6 @@ function(input, output, session){
       warning = function(w){      
         paste0("")
       })
-  })
-  
-  output$out03_plot1 <- renderPlot({
-    world <- TMWorldBorders
-    world <- merge(world, tab1(), by.x = "ISO3", by.y="code")
-    sub <- world[world$ISO3 == tab3()$code,]
-    plot(sub, col=world$ISO3); text(sub, tab3()$country, cex=1)
   })
 
   # Tab COVID-19 Health Index and Mitigation --------------------------------------
@@ -295,23 +299,25 @@ function(input, output, session){
   })
   
   output$out04_plot1 <- renderPlotly({
-    fig4a <- plot_ly(tab4a(), x = ~country, y = ~health_index, type = 'bar', textposition = 'auto',
+    fig4a <- plot_ly(tab4a(), y = ~country, x = ~health_index, type = 'bar', 
+                     textposition = 'auto', orientation = "h",
                      marker = list(color = 'rgb(158,202,225)',
                                    line = list(color = 'rgb(8,48,107)', width = 1.5)))
     fig4a <- fig4a %>% layout(title = "Top 10 Highest Health Index Countries",
                               xaxis = list(title = ""),
-                              yaxis = list(title = ""))
+                              yaxis = list(title = "", categoryorder = "total ascending"))
     
     fig4a
   })
   
   output$out04_plot2 <- renderPlotly({
-    fig4b <- plot_ly(tab4b(), x = ~country, y = ~health_index, type = 'bar', textposition = 'auto',
+    fig4b <- plot_ly(tab4b(), y = ~country, x = ~health_index, type = 'bar', 
+                     textposition = 'auto', orientation = "h",
                      marker = list(color = 'rgb(158,202,225)',
                                    line = list(color = 'rgb(8,48,107)', width = 1.5)))
     fig4b <- fig4b %>% layout(title = "Top 10 Lowest Health Index Countries",
                               xaxis = list(title = ""),
-                              yaxis = list(title = ""))
+                              yaxis = list(title = "", categoryorder = "total descending"))
     
     fig4b
   })

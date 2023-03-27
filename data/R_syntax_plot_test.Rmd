@@ -167,7 +167,7 @@ g4
 
 ```{r}
 fig3a <- plot_ly(g4, x = ~country, y = ~health_index, type = 'bar',
-             textposition = 'auto',
+             textposition = 'auto',orientation = "h",
              marker = list(color = 'rgb(158,202,225)',
                            line = list(color = 'rgb(8,48,107)', width = 1.5)))
 fig3a <- fig3a %>% layout(title = "Top 10 Health Index Countries",
