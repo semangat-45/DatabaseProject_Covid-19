@@ -166,10 +166,10 @@ g4
 ```
 
 ```{r}
-fig3a <- plot_ly(g4, x = ~country, y = ~health_index, type = 'bar',
-             textposition = 'auto',orientation = "h",
-             marker = list(color = 'rgb(158,202,225)',
-                           line = list(color = 'rgb(8,48,107)', width = 1.5)))
+library(RColorBrewer)
+fig3a <- plot_ly(g4, y = ~country, x = ~health_index, type = 'bar', 
+                 colors = brewer.pal(10, "Paired"), color = ~country,
+             textposition = 'auto',orientation = "h")
 fig3a <- fig3a %>% layout(title = "Top 10 Health Index Countries",
          xaxis = list(title = ""),
          yaxis = list(title = ""))

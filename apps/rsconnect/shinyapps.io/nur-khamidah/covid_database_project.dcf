@@ -5,9 +5,9 @@ account: nur-khamidah
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8534483
-bundleId: 7013272
+bundleId: 7013436
 url: https://nur-khamidah.shinyapps.io/covid_database_project/
-when: 1679921639.26914
-lastSyncTime: 1679921639.26916
+when: 1679923685.23895
+lastSyncTime: 1679923685.23897
 asMultiple: FALSE
 asStatic: FALSE

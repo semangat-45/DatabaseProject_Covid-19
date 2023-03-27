@@ -301,11 +301,11 @@ function(input, output, session){
   output$out04_plot1 <- renderPlotly({
     fig4a <- plot_ly(tab4a(), y = ~country, x = ~health_index, type = 'bar', 
                      textposition = 'auto', orientation = "h",
-                     marker = list(color = 'rgb(158,202,225)',
-                                   line = list(color = 'rgb(8,48,107)', width = 1.5)))
+                     colors = brewer.pal(10, "Set1"), color = ~country)
     fig4a <- fig4a %>% layout(title = "Top 10 Highest Health Index Countries",
                               xaxis = list(title = ""),
-                              yaxis = list(title = "", categoryorder = "total ascending"))
+                              yaxis = list(title = "", categoryorder = "total ascending"),
+                              showlegend = FALSE)
     
     fig4a
   })
@@ -313,11 +313,11 @@ function(input, output, session){
   output$out04_plot2 <- renderPlotly({
     fig4b <- plot_ly(tab4b(), y = ~country, x = ~health_index, type = 'bar', 
                      textposition = 'auto', orientation = "h",
-                     marker = list(color = 'rgb(158,202,225)',
-                                   line = list(color = 'rgb(8,48,107)', width = 1.5)))
+                     colors = brewer.pal(10, "Set2"), color = ~country)
     fig4b <- fig4b %>% layout(title = "Top 10 Lowest Health Index Countries",
                               xaxis = list(title = ""),
-                              yaxis = list(title = "", categoryorder = "total descending"))
+                              yaxis = list(title = "", categoryorder = "total descending"),
+                              showlegend = FALSE)
     
     fig4b
   })

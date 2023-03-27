@@ -9,6 +9,7 @@ library(rgdal)
 library(spdep)
 library(prevR)
 library(plotly)
+library(RColorBrewer)
 library(bslib)
 source("conf.R")
 
